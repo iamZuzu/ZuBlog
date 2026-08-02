@@ -80,7 +80,7 @@ export default async function RootLayout({ children }) {
             </header>
             <main>{children}</main>
             <footer className="site-footer">
-              <span>Published with a folder called Publish.</span>
+              <span>No CMS. No database. Just a folder called Publish.</span>
             </footer>
           </div>
         </PostHogProvider>
