@@ -2,6 +2,7 @@ import "./globals.css";
 import Link from "next/link";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import PostHogProvider from "../components/PostHogProvider";
+import Tagline from "../components/Tagline";
 import { DEFAULT_THEME } from "../lib/themes";
 import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "../lib/site";
 import { getAllPublishedPosts } from "../lib/posts";
@@ -80,7 +81,7 @@ export default async function RootLayout({ children }) {
             </header>
             <main>{children}</main>
             <footer className="site-footer">
-              <span>No CMS. No database. Just a folder called Publish.</span>
+              <Tagline />
             </footer>
           </div>
         </PostHogProvider>

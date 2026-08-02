@@ -97,6 +97,10 @@ Every post ships with:
 
 All of the above depend on `SITE_URL` in `lib/site.js` being set to your real deployed address (no trailing slash) — it defaults to a placeholder (`https://example.com`) so the build always works, but update it once you have a real domain (Netlify gives you one in Step 6d of `GETTING-STARTED.md`) so previews, the sitemap, and canonical links point at the right place.
 
+## Footer tagline
+
+The footer shows one line from `lib/taglines.js`, rotating to the next one every 10 minutes (same line for everyone during that window, so it doesn't feel random). Edit that file to change the lines — add, remove, or reorder them; the rotation just steps through the array in order.
+
 ## Renaming the blog
 
 Edit the two lines in `lib/site.js` (`SITE_NAME`, `SITE_DESCRIPTION`). That's the only place the name lives — it updates the header and the browser tab title.
