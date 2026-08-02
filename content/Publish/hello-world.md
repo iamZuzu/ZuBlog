@@ -2,8 +2,8 @@
 title: "Hello, World"
 date: "2026-08-01"
 description: "The first post on this blog, and how the Publish/Draft workflow works."
-tags: ["meta"]
-cover: "/images/sample-cover.svg"
+tags: ["firstPost"]
+cover: "/images/ss.png"
 ---
 
 Welcome to the blog. This post lives in `content/Publish`, which is what makes it visible here.
@@ -21,7 +21,11 @@ tags: ["life", "notes"]
 ---
 ```
 
-Below the `---` you just write normal markdown: headings, **bold**, _italics_, lists, links, code blocks, images.
+### Writing the body
+
+Below the `---` you just write normal markdown: headings, **bold**, _italics_, lists, links, code blocks, images. Any `##` or `###` heading you add here also shows up in the "On this page" list to the right, automatically.
+
+### The Draft / Publish cycle
 
 - Write and edit inside `content/Draft`
 - When it's ready for the world, move the file into `content/Publish`

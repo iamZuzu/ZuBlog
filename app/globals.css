@@ -86,6 +86,11 @@ html[data-theme="forest"].dark {
 /* Heatmap color scale and card shadow, derived from each theme's own
    accent/text color so nothing needs its own per-theme palette. */
 :root {
+  /* How far down a sticky sidebar (homepage sidebar, post TOC) should sit,
+     so it clears the sticky header instead of tucking underneath it. Keep
+     this a bit taller than the header's actual height (profile row +
+     nav) — update it here if the header's height ever changes. */
+  --sticky-offset: 11rem;
   --heat-0: var(--border);
   --heat-1: color-mix(in srgb, var(--accent) 25%, var(--bg));
   --heat-2: color-mix(in srgb, var(--accent) 50%, var(--bg));
@@ -107,6 +112,10 @@ html,
 body {
   padding: 0;
   margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -281,7 +290,7 @@ a {
 
 .home-sidebar {
   position: sticky;
-  top: 6rem;
+  top: var(--sticky-offset);
 }
 
 @media (max-width: 860px) {
@@ -372,6 +381,7 @@ a {
   border-radius: 14px;
   padding: 1rem;
   box-shadow: var(--shadow-sm);
+  margin-bottom: 1rem;
 }
 
 .heatmap-title {
@@ -564,6 +574,91 @@ a.month-cell:hover {
 }
 
 /* ---------------------------------------------------------------------
+   Post page layout: article + right-side table of contents
+--------------------------------------------------------------------- */
+
+.post-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+/* The article's text stays at a readable width, but (unlike .narrow)
+   isn't centered — it sits flush left in its column so the TOC beside it
+   lands at the actual right edge of the page, not floating next to a
+   centered column. */
+.post-main {
+  max-width: 680px;
+}
+
+.post-toc-sidebar {
+  position: sticky;
+  top: var(--sticky-offset);
+  max-height: calc(100vh - var(--sticky-offset) - 2rem);
+  overflow-y: auto;
+}
+
+@media (max-width: 900px) {
+  .post-layout {
+    grid-template-columns: 1fr;
+  }
+  .post-toc-sidebar {
+    display: none;
+  }
+}
+
+.toc {
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.toc-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin: 0 0 0.6rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc ul ul {
+  margin-left: 0.9rem;
+  padding-left: 0.6rem;
+  border-left: 1px solid var(--border);
+}
+
+.toc li {
+  margin: 0.35rem 0;
+}
+
+.toc a {
+  display: block;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--accent);
+}
+
+.toc li.is-active > a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------
    Post page
 --------------------------------------------------------------------- */
 
@@ -610,6 +705,12 @@ a.month-cell:hover {
 .post-content h3 {
   margin-top: 2em;
   margin-bottom: 0.5em;
+}
+
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+  scroll-margin-top: var(--sticky-offset);
 }
 
 .post-content p {
@@ -666,6 +767,13 @@ a.month-cell:hover {
   border: 1px solid var(--border);
   padding: 0.2rem 0.6rem;
   border-radius: 999px;
+  text-decoration: none;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.tag:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 /* ---------------------------------------------------------------------
@@ -713,4 +821,128 @@ a.month-cell:hover {
 .about-links a:hover {
   border-color: var(--accent);
   color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------
+   Tag cloud (sidebar card)
+--------------------------------------------------------------------- */
+
+.tag-cloud {
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.tag-cloud-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.tag-cloud-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 0.6rem;
+}
+
+.tag-cloud-item {
+  color: var(--muted);
+  text-decoration: none;
+  line-height: 1.2;
+  transition: color 0.12s ease;
+}
+
+.tag-cloud-item:hover {
+  color: var(--accent);
+}
+
+.tag-cloud-item.level-1 {
+  font-size: 0.72rem;
+}
+.tag-cloud-item.level-2 {
+  font-size: 0.85rem;
+}
+.tag-cloud-item.level-3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.tag-cloud-item.level-4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.tag-cloud-item.level-5 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------
+   Share buttons
+--------------------------------------------------------------------- */
+
+.share-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.share-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-right: 0.2rem;
+}
+
+.share-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--muted);
+  text-decoration: none;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
+}
+
+.share-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------
+   Comments (giscus)
+--------------------------------------------------------------------- */
+
+.comments {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.comments-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }

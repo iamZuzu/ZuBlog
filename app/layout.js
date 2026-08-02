@@ -3,13 +3,28 @@ import Link from "next/link";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import PostHogProvider from "../components/PostHogProvider";
 import { DEFAULT_THEME } from "../lib/themes";
-import { SITE_NAME, SITE_DESCRIPTION } from "../lib/site";
+import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "../lib/site";
 import { getAllPublishedPosts } from "../lib/posts";
 import { getAboutContent } from "../lib/about";
 
 export const metadata = {
-  title: SITE_NAME,
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
+  },
   description: SITE_DESCRIPTION,
+  openGraph: {
+    siteName: SITE_NAME,
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 // Applies the visitor's saved theme/mode before the page paints, so there's

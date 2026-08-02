@@ -1,5 +1,7 @@
 # Blog
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/13553b7d-5040-4bf7-ac17-e0f511b2a1ed/deploy-status)](https://app.netlify.com/projects/zublog/deploys)
+
 A markdown-based blog. What gets published is controlled entirely by which folder a file sits in — no CMS, no database, no admin panel.
 
 **New to this and not a developer?** Double-click **`GETTING-STARTED.html`** to read the full walkthrough in your browser (or open `GETTING-STARTED.md` in a text editor — same content, plain text). Assumes no prior technical experience. This file is a more compact technical reference.
@@ -63,6 +65,37 @@ Edit `content/about.md` to change your name, tagline, photo, and links (email, G
 ## Post activity heatmap
 
 The homepage sidebar shows a GitHub-style calendar heatmap (last ~4 months) of how many posts were published on each day, built from the `date` field in each post's frontmatter. Clicking a day takes you to a page listing that day's posts. Days with no posts aren't clickable — there's nothing to show.
+
+## Table of contents
+
+Any `##` or `###` heading in a post's body automatically shows up in an "On this page" list to the right of the post (nested to match your heading levels), with the current section highlighted as you scroll. It disappears entirely on posts with no headings, and on narrow/mobile screens. Nothing to configure — just write headings.
+
+## Tags and the tag cloud
+
+Whatever you put in a post's `tags:` list is collected into a weighted tag cloud in the homepage sidebar (more posts with a tag = bigger text) and each tag links to a page listing every post that uses it. Tags shown on the post page itself are also clickable, for the same result. Nothing to configure — just use `tags:` in your frontmatter.
+
+## Comments
+
+Off by default; turn it on by connecting [giscus](https://giscus.app), which stores visitor comments as GitHub Discussions on your repo — no separate account, database, or moderation dashboard needed.
+
+1. On your GitHub repo: **Settings → General → Features → Discussions** → enable it.
+2. Go to **giscus.app**, enter your repo, and follow its setup (pick a Discussion category — "General" or "Comments" both work fine).
+3. It generates four values (`data-repo`, `data-repo-id`, `data-category`, `data-category-id`). Copy them into `.env.local` (see `.env.example`) as `NEXT_PUBLIC_GISCUS_REPO`, `NEXT_PUBLIC_GISCUS_REPO_ID`, `NEXT_PUBLIC_GISCUS_CATEGORY`, `NEXT_PUBLIC_GISCUS_CATEGORY_ID`.
+4. Set the same four in Netlify's environment variables and redeploy.
+
+Comments thread themselves per-post automatically (matched by URL path), and follow your site's light/dark toggle.
+
+## Sharing and SEO
+
+Every post ships with:
+
+- **A published date**, shown on the page (`<time>` element) and embedded as machine-readable metadata (Open Graph `article:published_time` and a `BlogPosting` JSON-LD block) so search engines and link previews can read it directly, not just visitors.
+- **Share buttons** (X, Facebook, LinkedIn, copy-link, and a native share button on devices that support it) rendered under every post — nothing to configure.
+- **Open Graph and Twitter Card tags** per post (title, description, cover image if set), so links look right when pasted into X, Slack, iMessage, etc.
+- **`sitemap.xml` and `robots.txt`**, generated automatically at build time from whatever's in `content/Publish` (`app/sitemap.js` / `app/robots.js`).
+- **A canonical link** on every page, pointing at its one true URL.
+
+All of the above depend on `SITE_URL` in `lib/site.js` being set to your real deployed address (no trailing slash) — it defaults to a placeholder (`https://example.com`) so the build always works, but update it once you have a real domain (Netlify gives you one in Step 6d of `GETTING-STARTED.md`) so previews, the sitemap, and canonical links point at the right place.
 
 ## Renaming the blog
 

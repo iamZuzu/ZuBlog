@@ -32,9 +32,6 @@
     letter-spacing: -0.02em;
     margin: 0 0 0.25rem;
   }
-  h1:first-child + p {
-    color: var(--muted);
-  }
   h2 {
     font-size: 1.4rem;
     font-weight: 700;
@@ -101,7 +98,7 @@
 </head>
 <body>
   <div class="page">
-    <h1>Getting Started</h1>
+<h1 id="getting-started">Getting Started</h1>
 <p>This is a personal blog you run yourself — your posts are plain text files on your own computer, and "publishing" just means moving a file from one folder to another. No monthly fees, no third-party platform that can change its rules on you, no ads.</p>
 <p>This guide assumes you've never used a terminal, Git, or written code before. It's long because it explains everything — you won't need all of it every time, just the first time.</p>
 <p>A quick glossary, since a few of these words come up a lot below:</p>
@@ -114,7 +111,7 @@
 <li><strong>Deploy</strong> — the process of Netlify building your site and putting it online.</li>
 </ul>
 <hr>
-<h2>What you need before you start</h2>
+<h2 id="what-you-need-before-you-start">What you need before you start</h2>
 <ul>
 <li>A Windows computer (this guide is written for Windows; the blog itself also runs on Mac/Linux).</li>
 <li>A free <a href="https://github.com">GitHub</a> account.</li>
@@ -122,7 +119,7 @@
 <li>About 30–45 minutes for the one-time setup. After that, publishing a post takes seconds.</li>
 </ul>
 <hr>
-<h2>Step 1: Install Node.js</h2>
+<h2 id="step-1-install-nodejs">Step 1: Install Node.js</h2>
 <p>This blog is built with Node.js, which you need installed once.</p>
 <ol>
 <li>Go to <strong><a href="https://nodejs.org">https://nodejs.org</a></strong> and download the version labeled <strong>LTS</strong>.</li>
@@ -134,13 +131,13 @@ npm -v
 </code></pre>
 You should see two version numbers. If instead you see "not recognized", the install didn't finish correctly — try reinstalling and restarting your computer.</li>
 </ol>
-<h3>If PowerShell blocks npm with a "running scripts is disabled" error</h3>
+<h3 id="if-powershell-blocks-npm-with-a-running-scripts-is-disabled-error">If PowerShell blocks npm with a "running scripts is disabled" error</h3>
 <p>Windows sometimes blocks npm from running the first time. Fix it once with:</p>
 <pre><code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 </code></pre>
 <p>Type <code>Y</code> and press Enter when asked. This only allows scripts for your own user account — it doesn't turn off security for the whole computer. If you'd rather not change this setting, you can use Command Prompt (<code>cmd.exe</code>) instead of PowerShell for everything below; it doesn't have this restriction.</p>
 <hr>
-<h2>Step 2: Get the blog running on your computer</h2>
+<h2 id="step-2-get-the-blog-running-on-your-computer">Step 2: Get the blog running on your computer</h2>
 <ol>
 <li>Unzip this project folder somewhere easy to find, like <code>Documents\Blog</code>.</li>
 <li>Open a terminal and navigate into that folder. The easiest way: open the folder in File Explorer, click the address bar, type <code>powershell</code>, and press Enter — this opens a terminal already inside the right folder.</li>
@@ -155,7 +152,7 @@ This downloads everything the blog needs to run. It can take a minute or two.</l
 <li>Open a browser and go to <strong><a href="http://localhost:3000">http://localhost:3000</a></strong>. You should see the sample blog. Leave the terminal window open while you're working — closing it stops the site. Press <code>Ctrl+C</code> in the terminal when you want to stop it.</li>
 </ol>
 <hr>
-<h2>Step 3: Write your first post</h2>
+<h2 id="step-3-write-your-first-post">Step 3: Write your first post</h2>
 <p>Every post is a text file that lives in the <code>content</code> folder:</p>
 <pre><code>content/
   Draft/     &#x3C;- write and edit here; nothing here is public
@@ -197,33 +194,34 @@ Regular paragraph. **bold text**, _italic text_.
 </code></pre>
 <p>Save the file, and refresh <code>content/Draft</code> in your file browser — nothing shows on the live site yet, because it's still in <code>Draft</code>.</p>
 <hr>
-<h2>Step 4: Publish it</h2>
+<h2 id="step-4-publish-it">Step 4: Publish it</h2>
 <p>Move the file from <code>content/Draft</code> to <code>content/Publish</code> (cut and paste, or drag it in File Explorer). While your dev server (<code>npm run dev</code>) is running, refresh <strong><a href="http://localhost:3000">http://localhost:3000</a></strong> — your post is now on the homepage.</p>
 <p>That's the entire publishing model: <strong>Draft = private, Publish = public.</strong> To take a post down again, move it back to <code>Draft</code>.</p>
 <hr>
-<h2>Step 5: Make it yours</h2>
+<h2 id="step-5-make-it-yours">Step 5: Make it yours</h2>
 <ul>
 <li><strong>Rename the blog:</strong> open <code>lib/site.js</code> in a text editor and change the two lines there (<code>SITE_NAME</code>, <code>SITE_DESCRIPTION</code>).</li>
 <li><strong>About page:</strong> open <code>content/about.md</code> and replace the name, tagline, photo path, and links with your own. <code>photo</code> is the picture on the About page; <code>avatar</code> is the small circular picture in the header (they can be the same file or different ones).</li>
 <li><strong>Add photos:</strong> drop image files into the <code>public/images</code> folder, then reference them in a post as <code>![description](/images/your-file.jpg)</code>.</li>
 <li><strong>Themes:</strong> visitors can pick a color theme and light/dark mode from the header — nothing to configure, it just works.</li>
 <li><strong>Browser tab icon:</strong> replace <code>app/icon.svg</code> with your own SVG file (same name) to change the little icon shown in the browser tab.</li>
+<li><strong>Tags:</strong> add a <code>tags: ["life", "notes"]</code> line to a post's frontmatter. They automatically show up in a tag cloud on the homepage and become clickable — nothing else to set up.</li>
 </ul>
 <hr>
-<h2>Step 6: Put it on the internet</h2>
+<h2 id="step-6-put-it-on-the-internet">Step 6: Put it on the internet</h2>
 <p>Right now the blog only exists on your computer. These steps make it a real website anyone can visit.</p>
-<h3>6a. Install Git</h3>
+<h3 id="6a-install-git">6a. Install Git</h3>
 <ol>
 <li>Download Git from <strong><a href="https://git-scm.com/download/win">https://git-scm.com/download/win</a></strong> and install it with the default options.</li>
 <li>Create a GitHub account at <strong><a href="https://github.com">https://github.com</a></strong> if you don't have one.</li>
 </ol>
-<h3>6b. Create a GitHub repository</h3>
+<h3 id="6b-create-a-github-repository">6b. Create a GitHub repository</h3>
 <ol>
 <li>On github.com, click the <strong>+</strong> icon (top right) → <strong>New repository</strong>.</li>
 <li>Give it a name, like <code>my-blog</code>. Leave everything else as-is (don't check "Add a README").</li>
 <li>Click <strong>Create repository</strong>. Keep this page open — it shows the URL you'll need next.</li>
 </ol>
-<h3>6c. Push your blog to GitHub</h3>
+<h3 id="6c-push-your-blog-to-github">6c. Push your blog to GitHub</h3>
 <p>In a terminal, inside your blog folder, run these one at a time:</p>
 <pre><code>git init
 git add .
@@ -233,7 +231,7 @@ git remote add origin https://github.com/YOUR-USERNAME/my-blog.git
 git push -u origin main
 </code></pre>
 <p>Replace <code>YOUR-USERNAME</code> and <code>my-blog</code> with your actual GitHub username and repository name. The first push may open a browser window asking you to sign in to GitHub — that's expected, just follow it.</p>
-<h3>6d. Connect Netlify</h3>
+<h3 id="6d-connect-netlify">6d. Connect Netlify</h3>
 <ol>
 <li>Go to <strong><a href="https://app.netlify.com">https://app.netlify.com</a></strong> and sign up (using "Sign up with GitHub" is the fastest option).</li>
 <li>Click <strong>Add new site</strong> → <strong>Import an existing project</strong> → <strong>Deploy with GitHub</strong>.</li>
@@ -248,7 +246,7 @@ git push -u origin main
 </ol>
 <p>From now on, whenever you push a change to GitHub, Netlify automatically rebuilds the live site — usually within a minute.</p>
 <hr>
-<h2>Step 7: Publish without typing git commands (optional)</h2>
+<h2 id="step-7-publish-without-typing-git-commands-optional">Step 7: Publish without typing git commands (optional)</h2>
 <p>Steps 6c onward involve typing <code>git add</code>/<code>commit</code>/<code>push</code> every time you want to publish something new. If you'd rather skip that:</p>
 <ol>
 <li>Double-click <strong><code>Install Auto-Publish (start automatically).bat</code></strong> in the blog folder, once.</li>
@@ -258,7 +256,27 @@ git push -u origin main
 </ol>
 <p>With this running, publishing a post really is just: move the file to <code>Publish</code>, and wait about a minute.</p>
 <hr>
-<h2>Troubleshooting</h2>
+<h2 id="step-8-let-visitors-comment-optional">Step 8: Let visitors comment (optional)</h2>
+<p>Comments are off by default. Turning them on uses a free tool called giscus, which stores comments as GitHub Discussions on your repo — no extra account or database.</p>
+<ol>
+<li>On your GitHub repo page: <strong>Settings → General → scroll to Features → check "Discussions"</strong>.</li>
+<li>Go to <strong><a href="https://giscus.app">https://giscus.app</a></strong>, enter your repo name where asked, and follow its on-page instructions (choose any Discussion category — "General" is fine).</li>
+<li>Giscus shows you four values on that page (repo, repo ID, category, category ID). Open <code>.env.example</code> in your blog folder, copy it to a new file named <code>.env.local</code>, and paste those four values in next to the matching <code>NEXT_PUBLIC_GISCUS_...</code> lines.</li>
+<li>For the live site, add those same four values in Netlify: <strong>Site settings → Environment variables</strong>, then trigger a new deploy (push any small change, or use "Trigger deploy" in Netlify).</li>
+</ol>
+<p>Visitors comment using their own GitHub account. You moderate through GitHub's normal Discussions tools (delete, lock, etc.) — nothing blog-specific to manage.</p>
+<hr>
+<h2 id="step-9-set-your-sites-address-for-search-engines-and-share-previews">Step 9: Set your site's address (for search engines and share previews)</h2>
+<p>Every post already shows its publish date, has share buttons (X, Facebook, LinkedIn, and a copy-link button) underneath it, and is set up for search engines out of the box — none of that needs any setup. One thing is worth doing once you're live, though:</p>
+<p>Once your site has a real web address (from Netlify in Step 6d, or your own domain), open <code>lib/site.js</code> and set <code>SITE_URL</code> to it, e.g. <code>"https://my-blog.netlify.app"</code> (no trailing slash, no <code>.env</code> file involved — it's a plain line in this one file). This is used for:</p>
+<ul>
+<li>the preview card shown when someone shares a post link on X, Facebook, LinkedIn, iMessage, Slack, and so on (title, description, and cover image, if the post has one)</li>
+<li><code>sitemap.xml</code>, a file that helps Google and other search engines discover every post</li>
+<li>the "canonical" link on each page, which tells search engines where the official copy of a page lives</li>
+</ul>
+<p>Nothing breaks if you skip this step — it just means share previews and the sitemap point at the placeholder <code>example.com</code> instead of your real site until you fill it in.</p>
+<hr>
+<h2 id="troubleshooting">Troubleshooting</h2>
 <p><strong><code>npm</code> is not recognized as a command.</strong> Node.js isn't installed, or you opened your terminal before installing it. Reinstall from nodejs.org, then open a brand-new terminal window.</p>
 <p><strong>PowerShell says "running scripts is disabled".</strong> See the fix in Step 1.</p>
 <p><strong>The site won't load / "port already in use".</strong> Something else is already running on port 3000. Close other terminal windows running <code>npm run dev</code>, or restart your computer.</p>
@@ -266,7 +284,6 @@ git push -u origin main
 <p><strong>An image isn't showing up.</strong> Check that the file is actually inside <code>public/images/</code>, and that the path in your post starts with <code>/images/</code> (not <code>public/images/</code>).</p>
 <p><strong>Auto-publish isn't doing anything.</strong> Open <code>auto-publish.log</code> in the blog folder — it explains what happened, including if GitHub isn't connected yet (finish Step 6 first).</p>
 <p><strong>I want to stop using the site / take it offline.</strong> Delete the site in Netlify's dashboard (Site settings → General → Delete site). Your files stay safe on your computer either way.</p>
-
     <p class="print-note">This page also exists as a plain text file (GETTING-STARTED.md) in the same folder, if you'd rather read or edit it in a text editor.</p>
   </div>
 </body>

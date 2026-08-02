@@ -213,20 +213,6 @@ Visitors comment using their own GitHub account. You moderate through GitHub's n
 
 ---
 
-## Step 9: Set your site's address (for search engines and share previews)
-
-Every post already shows its publish date, has share buttons (X, Facebook, LinkedIn, and a copy-link button) underneath it, and is set up for search engines out of the box — none of that needs any setup. One thing is worth doing once you're live, though:
-
-Once your site has a real web address (from Netlify in Step 6d, or your own domain), open `lib/site.js` and set `SITE_URL` to it, e.g. `"https://my-blog.netlify.app"` (no trailing slash, no `.env` file involved — it's a plain line in this one file). This is used for:
-
-- the preview card shown when someone shares a post link on X, Facebook, LinkedIn, iMessage, Slack, and so on (title, description, and cover image, if the post has one)
-- `sitemap.xml`, a file that helps Google and other search engines discover every post
-- the "canonical" link on each page, which tells search engines where the official copy of a page lives
-
-Nothing breaks if you skip this step — it just means share previews and the sitemap point at the placeholder `example.com` instead of your real site until you fill it in.
-
----
-
 ## Troubleshooting
 
 **`npm` is not recognized as a command.** Node.js isn't installed, or you opened your terminal before installing it. Reinstall from nodejs.org, then open a brand-new terminal window.

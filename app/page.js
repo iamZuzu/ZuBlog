@@ -1,12 +1,20 @@
 import Link from "next/link";
 import Heatmap from "../components/Heatmap";
 import SearchBox from "../components/SearchBox";
-import { getAllPublishedPosts, getPostDateCounts, getTodayKey, formatDate } from "../lib/posts";
+import TagCloud from "../components/TagCloud";
+import {
+  getAllPublishedPosts,
+  getPostDateCounts,
+  getTodayKey,
+  getTagCounts,
+  formatDate,
+} from "../lib/posts";
 
 export default function HomePage() {
   const posts = getAllPublishedPosts();
   const counts = getPostDateCounts();
   const todayKey = getTodayKey();
+  const tags = getTagCounts();
   const searchIndex = posts.map((post) => ({
     slug: post.slug,
     title: post.title,
@@ -51,6 +59,7 @@ export default function HomePage() {
       <aside className="home-sidebar">
         <SearchBox posts={searchIndex} />
         <Heatmap counts={counts} todayKey={todayKey} />
+        <TagCloud tags={tags} />
       </aside>
     </div>
   );
