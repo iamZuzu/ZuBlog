@@ -60,7 +60,21 @@ Edit `content/about.md` to change your name, tagline, photo, and links (email, G
 
 ## Post activity heatmap
 
-The homepage shows a GitHub-style calendar heatmap of how many posts were published on each day, built from the `date` field in each post's frontmatter. Clicking a day takes you to a page listing that day's posts. Days with no posts aren't clickable — there's nothing to show.
+The homepage sidebar shows a GitHub-style calendar heatmap (last ~4 months) of how many posts were published on each day, built from the `date` field in each post's frontmatter. Clicking a day takes you to a page listing that day's posts. Days with no posts aren't clickable — there's nothing to show.
+
+## Renaming the blog
+
+Edit the two lines in `lib/site.js` (`SITE_NAME`, `SITE_DESCRIPTION`). That's the only place the name lives — it updates the header and the browser tab title.
+
+## Analytics (PostHog)
+
+Analytics is off unless you configure it. To turn it on:
+
+1. Create a free project at [posthog.com](https://posthog.com) and grab its **Project API Key** from Project Settings.
+2. Copy `.env.example` to `.env.local` and fill in `NEXT_PUBLIC_POSTHOG_KEY` (and `NEXT_PUBLIC_POSTHOG_HOST` if you're not on PostHog's US cloud).
+3. For the live site, set those same two variables in Netlify: Site settings → Environment variables. Redeploy after adding them (they're baked in at build time).
+
+Pageviews are tracked automatically, including client-side navigations between pages (About, posts, day pages), since this is a single-page app after the first load.
 
 ## Running it locally
 

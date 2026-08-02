@@ -1,12 +1,14 @@
-import Link from "next/link";
-import { getPostDateCounts } from "../lib/posts";
+"use client";
 
-function toKey(d) {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
+import { useMemo, useState } from "react";
+import Link from "next/link";
+
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+const WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
 function level(count) {
   if (!count) return 0;
@@ -16,98 +18,130 @@ function level(count) {
   return 4;
 }
 
-const MONTH_LABELS = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-];
+function pad(n) {
+  return String(n).padStart(2, "0");
+}
 
-export default function Heatmap() {
-  const counts = getPostDateCounts();
-  const totalPosts = Object.values(counts).reduce((a, b) => a + b, 0);
-  if (totalPosts === 0) return null;
+// `counts` is the full { "YYYY-MM-DD": count } map from getPostDateCounts()
+// (computed server-side, since it reads the filesystem) and `todayKey` is
+// today's date in the same format, also computed server-side so the
+// initial render matches exactly between server and client.
+export default function Heatmap({ counts, todayKey }) {
+  const todayYear = Number(todayKey.slice(0, 4));
+  const todayMonthIdx = Number(todayKey.slice(5, 7)) - 1;
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const [year, setYear] = useState(todayYear);
+  const [monthIdx, setMonthIdx] = useState(todayMonthIdx);
 
-  // Roughly the last 53 weeks, aligned so each column starts on a Sunday
-  // (matches the familiar GitHub-style contribution grid).
-  const start = new Date(today);
-  start.setDate(start.getDate() - 370);
-  start.setDate(start.getDate() - start.getDay());
+  const years = useMemo(() => {
+    const postYears = Object.keys(counts).map((k) => Number(k.slice(0, 4)));
+    const min = Math.min(todayYear - 3, ...(postYears.length ? postYears : [todayYear]));
+    const max = Math.max(todayYear, ...(postYears.length ? postYears : [todayYear]));
+    const list = [];
+    for (let y = max; y >= min; y--) list.push(y);
+    return list;
+  }, [counts, todayYear]);
 
-  const weeks = [];
-  let cursor = new Date(start);
-  while (cursor <= today) {
-    const week = [];
-    for (let i = 0; i < 7; i++) {
-      week.push(new Date(cursor));
-      cursor.setDate(cursor.getDate() + 1);
+  const totalPosts = useMemo(
+    () => Object.values(counts).reduce((a, b) => a + b, 0),
+    [counts]
+  );
+
+  const cells = useMemo(() => {
+    const daysInMonth = new Date(year, monthIdx + 1, 0).getDate();
+    const firstWeekday = new Date(year, monthIdx, 1).getDay();
+
+    const list = [];
+    for (let i = 0; i < firstWeekday; i++) list.push(null);
+    for (let day = 1; day <= daysInMonth; day++) {
+      const key = `${year}-${pad(monthIdx + 1)}-${pad(day)}`;
+      list.push({ day, key, count: counts[key] || 0, isFuture: key > todayKey });
     }
-    weeks.push(week);
-  }
-
-  // Figure out which columns deserve a month label (first column that
-  // enters a new month).
-  const monthLabels = weeks.map((week, i) => {
-    if (i === 0) return MONTH_LABELS[week[0].getMonth()];
-    const prevMonth = weeks[i - 1][0].getMonth();
-    const thisMonth = week[0].getMonth();
-    return thisMonth !== prevMonth ? MONTH_LABELS[thisMonth] : "";
-  });
+    while (list.length % 7 !== 0) list.push(null);
+    return list;
+  }, [year, monthIdx, counts, todayKey]);
 
   return (
     <section className="heatmap" aria-label="Posts per day">
       <h2 className="heatmap-title">Post activity</h2>
-      <div className="heatmap-scroll">
-        <div className="heatmap-months">
-          {monthLabels.map((label, i) => (
-            <span key={i} className="heatmap-month-label">
-              {label}
+
+      <div className="month-controls">
+        <select
+          className="theme-select"
+          value={monthIdx}
+          onChange={(e) => setMonthIdx(Number(e.target.value))}
+          aria-label="Month"
+        >
+          {MONTH_NAMES.map((name, i) => (
+            <option key={name} value={i}>
+              {name}
+            </option>
+          ))}
+        </select>
+        <select
+          className="theme-select"
+          value={year}
+          onChange={(e) => setYear(Number(e.target.value))}
+          aria-label="Year"
+        >
+          {years.map((y) => (
+            <option key={y} value={y}>
+              {y}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="month-weekdays">
+        {WEEKDAY_LABELS.map((label) => (
+          <span key={label}>{label}</span>
+        ))}
+      </div>
+
+      <div className="month-grid">
+        {cells.map((cell, i) => {
+          if (!cell) return <span key={i} className="month-cell is-empty" />;
+
+          const lvl = level(cell.count);
+          const label = `${cell.key}: ${cell.count} post${cell.count === 1 ? "" : "s"}`;
+
+          if (!cell.isFuture && cell.count > 0) {
+            return (
+              <Link
+                key={i}
+                href={`/day/${cell.key}`}
+                className={`month-cell level-${lvl}`}
+                title={label}
+                aria-label={label}
+              >
+                {cell.day}
+              </Link>
+            );
+          }
+
+          return (
+            <span
+              key={i}
+              className={`month-cell level-${lvl}${cell.isFuture ? " is-future" : ""}`}
+              title={cell.isFuture ? undefined : label}
+            >
+              {cell.day}
             </span>
-          ))}
-        </div>
-        <div className="heatmap-grid">
-          {weeks.map((week, wi) => (
-            <div className="heatmap-col" key={wi}>
-              {week.map((day, di) => {
-                const key = toKey(day);
-                const count = counts[key] || 0;
-                const isFuture = day > today;
-                const label = `${key}: ${count} post${count === 1 ? "" : "s"}`;
-
-                if (!isFuture && count > 0) {
-                  return (
-                    <Link
-                      key={di}
-                      href={`/day/${key}`}
-                      className={`heatmap-cell level-${level(count)}`}
-                      title={label}
-                      aria-label={label}
-                    />
-                  );
-                }
-
-                return (
-                  <span
-                    key={di}
-                    className={`heatmap-cell level-0${isFuture ? " is-future" : ""}`}
-                    title={isFuture ? undefined : label}
-                  />
-                );
-              })}
-            </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
-      <div className="heatmap-legend">
-        <span>Less</span>
-        <span className="heatmap-cell level-0" />
-        <span className="heatmap-cell level-1" />
-        <span className="heatmap-cell level-2" />
-        <span className="heatmap-cell level-3" />
-        <span className="heatmap-cell level-4" />
-        <span>More</span>
-      </div>
+
+      {totalPosts > 0 && (
+        <div className="heatmap-legend">
+          <span>Less</span>
+          <span className="heatmap-cell level-0" />
+          <span className="heatmap-cell level-1" />
+          <span className="heatmap-cell level-2" />
+          <span className="heatmap-cell level-3" />
+          <span className="heatmap-cell level-4" />
+          <span>More</span>
+        </div>
+      )}
     </section>
   );
 }

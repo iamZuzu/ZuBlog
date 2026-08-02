@@ -30,7 +30,7 @@ export default async function PostPage({ params }) {
   const html = await renderMarkdown(post.content);
 
   return (
-    <article>
+    <article className="narrow">
       <Link href="/" className="back-link">
         &larr; All posts
       </Link>

@@ -1,6 +1,7 @@
 ---
 name: "Zubin Subawalla"
 tagline: "Writing about what I'm building and learning."
+avatar: "/images/Zu.jpg"
 photo: "/images/avatar.svg"
 links:
   - label: "Email"
@@ -11,4 +12,6 @@ links:
 
 Hi, I'm Zubin. This is where I write things down.
 
-Replace this paragraph (and the frontmatter above — name, tagline, photo, links) with your own introduction. To use a real photo instead of the placeholder avatar, drop an image into `public/images/` and point `photo:` at it, e.g. `photo: "/images/me.jpg"`.
+Replace this paragraph (and the frontmatter above — name, tagline, photo, links) with your own introduction.
+
+`photo` is the image shown on this About page. `avatar` is the small profile picture shown in the site header on every page — set it to a different file if you want a different image there (e.g. a close-up headshot in the header, a bigger photo here). If you leave `avatar` out entirely, it just reuses `photo`.

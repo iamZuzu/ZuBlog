@@ -8,7 +8,7 @@ export default async function AboutPage() {
   const about = await getAboutContent();
 
   return (
-    <div className="about-page">
+    <div className="about-page narrow">
       <div className="about-header">
         {about.photo && (
           <img src={about.photo} alt={about.name} className="about-photo" />

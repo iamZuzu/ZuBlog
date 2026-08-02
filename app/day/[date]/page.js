@@ -21,7 +21,7 @@ export default function DayPage({ params }) {
   if (posts.length === 0) notFound();
 
   return (
-    <div>
+    <div className="narrow">
       <Link href="/" className="back-link">
         &larr; All posts
       </Link>
