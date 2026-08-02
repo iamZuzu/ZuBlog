@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import posthog from "posthog-js";
 
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
@@ -47,6 +48,15 @@ export default function Heatmap({ counts, todayKey }) {
     [counts]
   );
 
+  function selectPeriod(nextYear, nextMonthIdx) {
+    setYear(nextYear);
+    setMonthIdx(nextMonthIdx);
+    posthog.capture("post_activity_period_selected", {
+      year: nextYear,
+      month: nextMonthIdx + 1,
+    });
+  }
+
   const cells = useMemo(() => {
     const daysInMonth = new Date(year, monthIdx + 1, 0).getDate();
     const firstWeekday = new Date(year, monthIdx, 1).getDay();
@@ -69,7 +79,7 @@ export default function Heatmap({ counts, todayKey }) {
         <select
           className="theme-select"
           value={monthIdx}
-          onChange={(e) => setMonthIdx(Number(e.target.value))}
+          onChange={(e) => selectPeriod(year, Number(e.target.value))}
           aria-label="Month"
         >
           {MONTH_NAMES.map((name, i) => (
@@ -81,7 +91,7 @@ export default function Heatmap({ counts, todayKey }) {
         <select
           className="theme-select"
           value={year}
-          onChange={(e) => setYear(Number(e.target.value))}
+          onChange={(e) => selectPeriod(Number(e.target.value), monthIdx)}
           aria-label="Year"
         >
           {years.map((y) => (

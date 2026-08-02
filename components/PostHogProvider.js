@@ -3,27 +3,34 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 
-// Loads and initializes PostHog only if a project key is configured, and
-// sends a pageview on first load plus on every client-side route change
-// (App Router navigations don't trigger a normal page load, so PostHog's
-// own automatic pageview capture won't see them).
 export default function PostHogProvider({ children }) {
   const pathname = usePathname();
   const posthogRef = useRef(null);
   const lastPath = useRef(null);
 
   useEffect(() => {
-    const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-    if (!key) return;
+    const key = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
+    const host = process.env.NEXT_PUBLIC_POSTHOG_HOST;
+    if (!key || !host) {
+      if (process.env.NODE_ENV !== "production") {
+        const missing = !key
+          ? "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN"
+          : "NEXT_PUBLIC_POSTHOG_HOST";
+        throw new Error(
+          `${missing} variable required by PostHog is missing or un-configured, this causes events to be silently missed. This error stops appearing once ${missing} is configured`
+        );
+      }
+      return;
+    }
 
     let cancelled = false;
 
     import("posthog-js").then(({ default: posthog }) => {
       if (cancelled) return;
       posthog.init(key, {
-        api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com",
+        api_host: host,
         capture_pageview: false,
-        person_profiles: "identified_only",
+        capture_exceptions: true,
       });
       posthogRef.current = posthog;
       lastPath.current = pathname;
