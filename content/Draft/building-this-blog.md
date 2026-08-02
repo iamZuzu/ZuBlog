@@ -25,6 +25,10 @@ That's a markdown file with a little frontmatter up top (title, date, a one-line
 
 When it's ready: drag it from `Draft` into `Publish`. Rebuild (or let the host rebuild it automatically), and it's live. Change my mind? Drag it back. There's no "unpublish" button because there's nothing to click — the folder *is* the state.
 
+![The publishing workflow: install once, then write, publish, sync, and it's live](/images/publishing-workflow.svg)
+
+The first box only happens once. Everything after it is the entire loop, every time I write something new.
+
 ## What happens after you hit publish
 
 Once a post is public, the app quietly does a lot of the boring parts for you:
