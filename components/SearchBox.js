@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import posthog from "posthog-js";
 
 // `posts` is a small array of { slug, title, description, tags } — passed
 // down from the homepage (a server component that already has the full
@@ -25,6 +26,15 @@ export default function SearchBox({ posts }) {
 
   const showResults = query.trim().length > 0;
 
+  function selectSearchResult(post, position) {
+    posthog.capture("search_result_selected", {
+      result_position: position,
+      result_count: results.length,
+      has_tags: post.tags.length > 0,
+    });
+    setQuery("");
+  }
+
   return (
     <div className="search-box">
       <input
@@ -41,9 +51,12 @@ export default function SearchBox({ posts }) {
             <p className="search-empty">No matches.</p>
           ) : (
             <ul>
-              {results.map((post) => (
+              {results.map((post, index) => (
                 <li key={post.slug}>
-                  <Link href={`/posts/${post.slug}`} onClick={() => setQuery("")}>
+                  <Link
+                    href={`/posts/${post.slug}`}
+                    onClick={() => selectSearchResult(post, index + 1)}
+                  >
                     {post.title}
                   </Link>
                 </li>
