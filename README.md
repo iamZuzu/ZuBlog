@@ -24,9 +24,10 @@ Regular markdown content goes here.
 ```
 
 - `title` is used as the page title and the link text on the homepage.
-- `date` controls sort order (newest first) and the date shown on the post.
+- `date` controls sort order (newest first), the date shown on the post, and which day it lands on in the heatmap calendar (see below).
 - `description` is optional, shown as a preview on the homepage.
 - `tags` is optional, shown on the post page.
+- `cover` is optional — a path to an image (e.g. `/images/my-photo.jpg`) shown as a banner on the post and a thumbnail on the homepage.
 - The filename becomes the URL slug, e.g. `hello-world.md` -> `/posts/hello-world`.
 
 The site only ever reads from `content/Publish` (see `lib/posts.js`). Files in `content/Draft` are never scanned, never given a page, and never given a URL — there's nothing to accidentally leak. To publish, move the file. To unpublish, move it back.
@@ -38,6 +39,28 @@ npm run new-draft "My Post Title"
 ```
 
 This creates a pre-filled file in `content/Draft`.
+
+### Adding images
+
+Drop image files into `public/images/`, then reference them in a post's markdown body:
+
+```
+![A description of the image](/images/your-file.jpg)
+```
+
+Add `cover: "/images/your-file.jpg"` to the frontmatter to also use it as the post's banner/thumbnail image.
+
+## Themes and dark mode
+
+Visitors get a theme picker (Classic, Warm, Ocean, Forest) and a light/dark toggle in the header — both are remembered per-device. To add your own theme, copy one of the `[data-theme="..."]` blocks near the top of `app/globals.css`, give it a new name, and add it to the list in `lib/themes.js`.
+
+## About page
+
+Edit `content/about.md` to change your name, tagline, photo, and links (email, GitHub, etc. — any URL works). It uses the same frontmatter + markdown format as posts. A placeholder avatar is included at `public/images/avatar.svg` until you add a real photo.
+
+## Post activity heatmap
+
+The homepage shows a GitHub-style calendar heatmap of how many posts were published on each day, built from the `date` field in each post's frontmatter. Clicking a day takes you to a page listing that day's posts. Days with no posts aren't clickable — there's nothing to show.
 
 ## Running it locally
 

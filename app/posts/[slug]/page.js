@@ -34,6 +34,9 @@ export default async function PostPage({ params }) {
       <Link href="/" className="back-link">
         &larr; All posts
       </Link>
+      {post.cover && (
+        <img src={post.cover} alt="" className="post-cover" />
+      )}
       <header className="post-header">
         <h1 className="post-title">{post.title}</h1>
         {post.date && <p className="post-meta">{formatDate(post.date)}</p>}
