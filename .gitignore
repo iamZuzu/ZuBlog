@@ -3,3 +3,5 @@ node_modules/
 out/
 .DS_Store
 .env.local
+auto-publish.log
+auto-publish.pid

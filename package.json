@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "new-draft": "node scripts/new-draft.js"
+    "new-draft": "node scripts/new-draft.js",
+    "auto-publish": "node scripts/watch-publish.js"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

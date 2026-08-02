@@ -2,6 +2,8 @@
 
 A markdown-based blog. What gets published is controlled entirely by which folder a file sits in — no CMS, no database, no admin panel.
 
+**New to this and not a developer?** Double-click **`GETTING-STARTED.html`** to read the full walkthrough in your browser (or open `GETTING-STARTED.md` in a text editor — same content, plain text). Assumes no prior technical experience. This file is a more compact technical reference.
+
 ## How it works
 
 ```
@@ -66,6 +68,10 @@ The homepage sidebar shows a GitHub-style calendar heatmap (last ~4 months) of h
 
 Edit the two lines in `lib/site.js` (`SITE_NAME`, `SITE_DESCRIPTION`). That's the only place the name lives — it updates the header and the browser tab title.
 
+## Browser tab icon (favicon)
+
+`app/icon.svg` is the icon shown in the browser tab. Replace it with your own SVG (same filename) to change it — Next.js picks it up automatically, no code changes needed. Restart `npm run dev` (or rebuild) to see the change.
+
 ## Analytics (PostHog)
 
 Analytics is off unless you configure it. To turn it on:
@@ -92,6 +98,15 @@ This is a static site (`next build` outputs plain HTML/CSS/JS into `/out`), so i
 1. Push this folder to a GitHub repository.
 2. Connect the repo to [Vercel](https://vercel.com) or [Netlify](https://netlify.com) (both have a generous free tier and auto-detect Next.js).
 3. Every time you push a commit — e.g. after moving a file from `Draft` to `Publish` — the host rebuilds automatically and the live site updates.
+
+### Auto-publish (optional)
+
+Instead of running `git add`/`commit`/`push` by hand every time you move a post to `Publish`, you can have it happen automatically:
+
+- **Windows, no terminal:** double-click `Install Auto-Publish (start automatically).bat` once. It starts a background watcher and sets it to relaunch quietly every time you log in. Check `auto-publish.log` in this folder to see what it's done. Use `Stop Auto-Publish.bat` or `Uninstall Auto-Publish.bat` to turn it off.
+- **Any OS, from a terminal:** `npm run auto-publish` (leave the terminal window open).
+
+Either way, it watches `content/` and `public/images/`, waits about 10 seconds after the last change (so it doesn't commit mid-edit), then commits and pushes. It requires the GitHub remote to already be set up (see above) — it'll say so clearly in the log if that step isn't done yet.
 
 Alternatively, build locally and upload the static output yourself:
 
