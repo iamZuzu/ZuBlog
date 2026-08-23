@@ -42,3 +42,5 @@ Drop an image file into `public/images/`, then reference it with a normal markdo
 ```
 
 You can also add a `cover: "/images/your-file.jpg"` line to the frontmatter (like this post has) to show a banner image at the top of the post and a thumbnail on the homepage.
+
+built by Zuzu.Ai
