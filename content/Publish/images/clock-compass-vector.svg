@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 244" role="img" aria-label="Time gives the length, direction gives the angle" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">
+<defs><marker id="vec-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2b7bd9"/></marker></defs>
+<rect width="760" height="244" rx="8" fill="#ffffff"/>
+<text x="24" y="34" font-size="15" font-weight="600" fill="#1a1a1a">Time gives the length, direction gives the angle</text>
+<rect x="24" y="64" width="200" height="156" rx="8" fill="none" stroke="#b8b5a8" stroke-width="1.25"/>
+<circle cx="124" cy="110" r="26" fill="none" stroke="#b8b5a8" stroke-width="1.25"/>
+<line x1="124" y1="110" x2="124" y2="92" stroke="#1a1a1a" stroke-width="2"/>
+<line x1="124" y1="110" x2="138" y2="110" stroke="#1a1a1a" stroke-width="2"/>
+<text x="124" y="168" text-anchor="middle" font-size="15" font-weight="600" fill="#1a1a1a">Clock</text>
+<text x="124" y="192" text-anchor="middle" font-size="11.5" fill="#666666">Magnitude: the hours spent</text>
+<text x="252" y="150" text-anchor="middle" font-size="22" fill="#666666">+</text>
+<rect x="280" y="64" width="200" height="156" rx="8" fill="none" stroke="#b8b5a8" stroke-width="1.25"/>
+<circle cx="380" cy="110" r="26" fill="none" stroke="#b8b5a8" stroke-width="1.25"/>
+<polygon points="380,86 386,110 374,110" fill="#2b7bd9"/>
+<polygon points="374,110 386,110 380,134" fill="#b8b5a8"/>
+<text x="380" y="168" text-anchor="middle" font-size="15" font-weight="600" fill="#1a1a1a">Compass</text>
+<text x="380" y="192" text-anchor="middle" font-size="11.5" fill="#666666">Direction: your values</text>
+<text x="508" y="150" text-anchor="middle" font-size="22" fill="#666666">=</text>
+<rect x="536" y="64" width="200" height="156" rx="8" fill="#2b7bd9" fill-opacity="0.12" stroke="#2b7bd9" stroke-width="2"/>
+<line x1="596" y1="132" x2="676" y2="90" stroke="#2b7bd9" stroke-width="2.5" marker-end="url(#vec-arrow)"/>
+<text x="636" y="168" text-anchor="middle" font-size="15" font-weight="600" fill="#1a1a1a">Vector</text>
+<text x="636" y="192" text-anchor="middle" font-size="11.5" fill="#666666">Velocity: life with purpose</text>
+</svg>
