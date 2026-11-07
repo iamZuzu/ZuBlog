@@ -1,14 +1,10 @@
 ---
 title: "One Degree Off Course: How Time and Direction Can Add Up to a Life Lived or an Opportunity Missed"
-date: 2026-11-08
+date: "2026-11-08"
 author: Zubin
 description: "What the compass, the marine clock and a little vector physics teach us about direction, time and the shape of a life."
-tags: [philosophy, life, time, purpose, navigation]
+tags: ["philosophy", "life", "time", "purpose", "navigation"]
 ---
-
-# One Degree Off Course
-
-*How time and direction can add up to a life lived or an opportunity missed*
 
 ## Two instruments
 
@@ -16,7 +12,7 @@ A life needs two instruments: a clock to measure how we spend our time, and a co
 
 We become very good at managing the clock. Calendars, deadlines, an empty inbox. Then one day we look up and realise we have been travelling efficiently in a direction we never chose. Speed is worthless when the heading is wrong. A ship one degree off course looks fine after an hour and is lost after a month.
 
-![One degree off is invisible early and decisive later](images/one-degree-off-course.svg)
+![One degree off is invisible early and decisive later](/images/one-degree-off-course.svg)
 
 *The two courses look identical at the start; distance is what turns a tiny angle into a different life.*
 
@@ -44,7 +40,7 @@ Physics offers the precise language. Time, on its own, is a scalar: a size with 
 
 The clock supplies the magnitude; the compass supplies the angle. Together they make what physics calls velocity, and what most of us would call a life with purpose. Hours without direction add up to a large number that goes nowhere. Direction without hours is an arrow drawn on a map.
 
-![Time gives the length, direction gives the angle](images/clock-compass-vector.svg)
+![Time gives the length, direction gives the angle](/images/clock-compass-vector.svg)
 
 *Neither instrument moves you on its own; only together do they describe motion with a purpose.*
 
@@ -58,7 +54,7 @@ Velocity is a heading at one moment. What we end up with is displacement: every 
 
 Vector addition is unforgiving and fair. Large efforts pointed in different directions cancel out. A year sprinting north and a year sprinting south leaves you where you began, only tired. Modest vectors pointed consistently the same way add up to a long distance.
 
-![Consistent small steps travel further than scattered big ones](images/scattered-vs-consistent.svg)
+![Consistent small steps travel further than scattered big ones](/images/scattered-vs-consistent.svg)
 
 *The left path uses far more energy; the right path ends far further from where it began.*
 
