@@ -8,13 +8,32 @@ export default function ThemeSwitcher() {
   const [mode, setMode] = useState("light");
   const [mounted, setMounted] = useState(false);
 
-  // Read whatever the no-flash script (in layout.js) already applied to
-  // <html>, so the controls reflect reality instead of flashing back to
-  // the defaults on hydration.
+  // Work out the visitor's saved theme and mode (same rules as the no-flash
+  // script in layout.js) and re-apply them to <html>. Reading from storage
+  // rather than from <html> means the page still ends up right even if
+  // something wiped those attributes before this ran.
   useEffect(() => {
     const root = document.documentElement;
-    setTheme(root.getAttribute("data-theme") || DEFAULT_THEME);
-    setMode(root.classList.contains("dark") ? "dark" : "light");
+    let savedTheme = null;
+    let savedMode = null;
+    try {
+      savedTheme = localStorage.getItem("blog-theme");
+      savedMode = localStorage.getItem("blog-mode");
+    } catch (e) {}
+
+    const validTheme = THEMES.some((t) => t.id === savedTheme);
+    const nextTheme = validTheme ? savedTheme : DEFAULT_THEME;
+    const nextMode =
+      savedMode === "dark" || savedMode === "light"
+        ? savedMode
+        : window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+
+    root.setAttribute("data-theme", nextTheme);
+    root.classList.toggle("dark", nextMode === "dark");
+    setTheme(nextTheme);
+    setMode(nextMode);
     setMounted(true);
   }, []);
 

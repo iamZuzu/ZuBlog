@@ -49,7 +49,12 @@ export default async function RootLayout({ children }) {
   const avatar = about.avatar || "/images/avatar.svg";
 
   return (
-    <html lang="en">
+    // suppressHydrationWarning: the no-flash script adds data-theme and the
+    // "dark" class to <html> before React loads, so <html> legitimately
+    // differs from the server markup. Without this, React treats it as an
+    // error, rebuilds the page and wipes those attributes, which breaks
+    // the theme picker and the dark mode switch.
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: noFlashScript }} />
       </head>
