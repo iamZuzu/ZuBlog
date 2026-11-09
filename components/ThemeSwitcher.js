@@ -57,12 +57,21 @@ export default function ThemeSwitcher() {
       </select>
       <button
         type="button"
-        className="mode-toggle"
+        role="switch"
+        aria-checked={mode === "dark"}
+        className={`mode-toggle${mode === "dark" ? " is-dark" : ""}`}
         onClick={toggleMode}
-        aria-label={mode === "light" ? "Switch to dark mode" : "Switch to light mode"}
+        aria-label="Dark mode"
         title={mode === "light" ? "Switch to dark mode" : "Switch to light mode"}
       >
-        {mode === "light" ? "\u{1F319}" : "\u{2600}\u{FE0F}"}
+        <span className="mode-toggle-knob" aria-hidden="true">
+          {/* Half-filled sun: the filled half flips side when the mode changes */}
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <circle cx="12" cy="12" r="4.5" />
+            <path d="M12 7.5a4.5 4.5 0 0 1 0 9z" fill="currentColor" stroke="none" />
+            <path d="M12 1.5v2M12 20.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M1.5 12h2M20.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4" />
+          </svg>
+        </span>
       </button>
     </div>
   );
